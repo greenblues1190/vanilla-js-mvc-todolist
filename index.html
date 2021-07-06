@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TodoList</title>
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+
+<body>
+  <header>
+    <h1>TodoList</h1>
+  </header>
+  <section class="todolist-container">
+    <div class="todo">
+      <input type="text" name="item" id="add-item" placeholder="Add a todo item" autofocus onkeypress="view.addItem(event)">
+      <div id="todo-count"></div>
+      <ul id="list"></ul>
+    </div>
+  </section>
+  <footer>
+    <p>2021, <a href="https://github.com/greenblues1190">Jeongmin Woo</a></p>
+    <a href="https://woojeongmin.com">woojeongmin.com</a>
+  </footer>
+  <script type="text/javascript" src="src/App.js"></script>
+</body>
+
+</html>
