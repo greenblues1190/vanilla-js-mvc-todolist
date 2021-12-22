@@ -13,7 +13,11 @@ export default class View {
     range.deleteContents();
   }
 
-  render(items, count) {
+  clearInput() {
+    document.getElementById('add-item').value = '';
+  }
+
+  render({ items, count }) {
     // clear list and rerender
     this.clearList();
 
@@ -63,6 +67,7 @@ export default class View {
 
       if (button && button.classList.contains('item-complete')) {
         const id = Number(button.closest('li').dataset.id);
+
         callback(id);
       }
     });
@@ -78,6 +83,7 @@ export default class View {
 
       if (button && button.classList.contains('item-delete')) {
         const id = Number(button.closest('li').dataset.id);
+
         callback(id);
       }
     });
@@ -92,9 +98,7 @@ export default class View {
       const item = input.value.trim();
 
       if (e.key === ENTER_KEY) {
-        if (item === '') {
-          return;
-        }
+        if (item === '') return;
 
         callback(item);
       }
