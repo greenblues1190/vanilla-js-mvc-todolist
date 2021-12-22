@@ -44,7 +44,6 @@ export default class View {
     const template = items.map((item, id) => li(id, item)).join('');
     const list = document.getElementById('list');
 
-    console.log(items);
     list.innerHTML = template;
 
     // rerender button-container
@@ -68,10 +67,8 @@ export default class View {
 
       const button = e.target.closest('a');
 
-      console.log(button);
-
       if (button.classList.contains('item-complete')) {
-        const id = button.closest('li').dataset.id;
+        const id = Number(button.closest('li').dataset.id);
         callback(id);
       }
     });
@@ -86,7 +83,7 @@ export default class View {
       const button = e.target.closest('a');
 
       if (button.classList.contains('item-delete')) {
-        const id = button.closest('li').dataset.id;
+        const id = Number(button.closest('li').dataset.id);
         callback(id);
       }
     });
