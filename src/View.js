@@ -1,20 +1,21 @@
+import { $, $all } from './helpers.js';
 import { ENTER_KEY, CHECK_ICON, CROSS_ICON } from './contants.js';
 
 export default class View {
   clearList() {
     const range = document.createRange();
-    range.selectNodeContents(document.getElementById('list'));
+    range.selectNodeContents($('#list'));
     range.deleteContents();
   }
 
   clearButtons() {
     const range = document.createRange();
-    range.selectNodeContents(document.getElementById('todo-count'));
+    range.selectNodeContents($('#todo-count'));
     range.deleteContents();
   }
 
   clearInput() {
-    document.getElementById('add-item').value = '';
+    $('#add-item').value = '';
   }
 
   render({ items, count }) {
@@ -40,16 +41,17 @@ export default class View {
     `;
 
     const template = items.map((item, id) => li(id, item)).join('');
-    const list = document.getElementById('list');
+    const list = $('#list');
 
     list.innerHTML = template;
 
     // rerender button-container
     this.clearButtons();
+
     const todos = count;
 
     if (todos.total > 0) {
-      const todoCount = document.getElementById('todo-count');
+      const todoCount = $('#todo-count');
       const itemCount = document.createElement('p');
       const plural = todos.active === 1 ? '' : 's';
       itemCount.textContent = `${todos.active} todo${plural} left`;
@@ -58,7 +60,7 @@ export default class View {
   }
 
   bindClickCompleteItem(callback) {
-    const list = document.querySelector('#list');
+    const list = $('#list');
 
     list.addEventListener('click', (e) => {
       e.preventDefault();
@@ -74,7 +76,7 @@ export default class View {
   }
 
   bindClickDeleteItem(callback) {
-    const list = document.querySelector('#list');
+    const list = $('#list');
 
     list.addEventListener('click', (e) => {
       e.preventDefault();
@@ -90,7 +92,7 @@ export default class View {
   }
 
   bindClickAddItem(callback) {
-    const input = document.getElementById('add-item');
+    const input = $('#add-item');
 
     input.addEventListener('keyup', (e) => {
       e.preventDefault();
