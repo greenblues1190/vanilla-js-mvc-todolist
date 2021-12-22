@@ -1,10 +1,4 @@
-const ENTER_KEY = 13;
-const CHECK_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 20 20" fill="currentColor">
-<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-</svg>`;
-const CROSS_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 20 20" fill="currentColor">
-<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-</svg>`;
+import { ENTER_KEY, CHECK_ICON, CROSS_ICON } from './contants.js';
 
 export default class View {
   clearList() {
@@ -67,7 +61,7 @@ export default class View {
 
       const button = e.target.closest('a');
 
-      if (button.classList.contains('item-complete')) {
+      if (button && button.classList.contains('item-complete')) {
         const id = Number(button.closest('li').dataset.id);
         callback(id);
       }
@@ -82,7 +76,7 @@ export default class View {
 
       const button = e.target.closest('a');
 
-      if (button.classList.contains('item-delete')) {
+      if (button && button.classList.contains('item-delete')) {
         const id = Number(button.closest('li').dataset.id);
         callback(id);
       }
@@ -97,7 +91,7 @@ export default class View {
 
       const item = input.value.trim();
 
-      if (e.key === 'Enter') {
+      if (e.key === ENTER_KEY) {
         if (item === '') {
           return;
         }
