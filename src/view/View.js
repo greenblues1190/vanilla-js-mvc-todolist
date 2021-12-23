@@ -1,5 +1,5 @@
-import { $, $all } from './helpers.js';
-import { ENTER_KEY } from './contants.js';
+import { $, $all } from '../utils/helpers.js';
+import { ENTER_KEY } from '../configs/contants.js';
 
 export default class View {
   constructor(template) {

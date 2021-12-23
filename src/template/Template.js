@@ -1,4 +1,4 @@
-import { CHECK_ICON, CROSS_ICON } from './contants.js';
+import { CHECK_ICON, CROSS_ICON } from '../configs/contants.js';
 
 export default class Template {
   constructor() {
