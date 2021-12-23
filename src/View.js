@@ -2,6 +2,9 @@ import { $, $all } from './helpers.js';
 import { ENTER_KEY, CHECK_ICON, CROSS_ICON } from './contants.js';
 
 export default class View {
+  constructor() {
+    this.$app = $('#app');
+  }
   clearList() {
     const range = document.createRange();
     range.selectNodeContents($('#list'));
@@ -59,51 +62,50 @@ export default class View {
     }
   }
 
-  bindClickCompleteItem(callback) {
-    const list = $('#list');
+  bindEventListener(type, selector, callback) {
+    const children = [...$all(selector, this.$app)];
+    const isTarget = (target) =>
+      children.includes(target) || target.closest(selector);
 
-    list.addEventListener('click', (e) => {
+    this.$app.addEventListener(type, (e) => {
+      if (!isTarget(e.target)) return;
+
       e.preventDefault();
+      callback(e);
+    });
+  }
 
+  bindClickCompleteItem(callback) {
+    this.bindEventListener('click', '#list', (e) => {
       const button = e.target.closest('a');
 
-      if (button && button.classList.contains('item-complete')) {
-        const id = Number(button.closest('li').dataset.id);
+      if (!button || !button.classList.contains('item-complete')) return;
 
-        callback(id);
-      }
+      const id = Number(button.closest('li').dataset.id);
+      callback(id);
     });
   }
 
   bindClickDeleteItem(callback) {
-    const list = $('#list');
-
-    list.addEventListener('click', (e) => {
-      e.preventDefault();
-
+    this.bindEventListener('click', '#list', (e) => {
       const button = e.target.closest('a');
 
-      if (button && button.classList.contains('item-delete')) {
-        const id = Number(button.closest('li').dataset.id);
+      if (!button || !button.classList.contains('item-delete')) return;
 
-        callback(id);
-      }
+      const id = Number(button.closest('li').dataset.id);
+      callback(id);
     });
   }
 
   bindClickAddItem(callback) {
-    const input = $('#add-item');
+    this.bindEventListener('keyup', '#add-item', (e) => {
+      if (e.key !== ENTER_KEY) return;
 
-    input.addEventListener('keyup', (e) => {
-      e.preventDefault();
+      const item = $('#add-item').value.trim();
 
-      const item = input.value.trim();
+      if (item === '') return;
 
-      if (e.key === ENTER_KEY) {
-        if (item === '') return;
-
-        callback(item);
-      }
+      callback(item);
     });
   }
 }
