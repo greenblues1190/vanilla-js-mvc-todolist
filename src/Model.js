@@ -1,55 +1,66 @@
 export default class Model {
-  constructor() {
-    this.items = [];
+  constructor(store) {
+    this.store = store;
+  }
+
+  init(callback) {
+    const todos = this.store.load();
+
+    callback(this._getResult(todos));
   }
 
   addItem(item, callback) {
+    const todos = this.store.load();
     const newItem = {
       text: item,
       isCompleted: false,
     };
 
-    this.items.push(newItem);
-
-    callback(this._getResult());
+    todos.push(newItem);
+    this.store.save(todos);
+    callback(this._getResult(todos));
   }
 
   completeItem(id, callback) {
-    this.items[id].isCompleted = !this.items[id].isCompleted;
+    const todos = this.store.load();
 
-    callback(this._getResult());
+    todos[id].isCompleted = !todos[id].isCompleted;
+    this.store.save(todos);
+    callback(this._getResult(todos));
   }
 
   deleteItem(id, callback) {
-    this.items.splice(id, 1);
+    const todos = this.store.load();
 
-    callback(this._getResult());
+    todos.splice(id, 1);
+    this.store.save(todos);
+    callback(this._getResult(todos));
   }
 
-  _getResult() {
+  _getResult(todos) {
     return {
-      items: [...this.items],
-      count: this._getCount(),
+      items: [...todos],
+      count: this._getCount(todos),
     };
   }
 
-  _getCount() {
-    const todos = {
+  _getCount(todos) {
+    const count = {
       active: 0,
       completed: 0,
       total: 0,
     };
 
-    this.items.forEach(function (todo) {
+    todos.forEach(function (todo) {
       if (todo.isCompleted) {
-        todos.completed++;
+        count.completed++;
       } else {
-        todos.active++;
+        count.active++;
       }
 
-      todos.total++;
+      count.total++;
     });
 
-    return todos;
+    return count;
   }
 }

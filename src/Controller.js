@@ -8,6 +8,12 @@ export default class Controller {
     this.view.bindClickDeleteItem(this.deleteItem.bind(this));
   }
 
+  initView() {
+    this.model.init((result) => {
+      this.view.render(result);
+    });
+  }
+
   addItem(item) {
     this.model.addItem(item, (result) => {
       this.view.clearInput();
