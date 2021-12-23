@@ -40,27 +40,6 @@ export default class Model {
   _getResult(todos) {
     return {
       todos: [...todos],
-      count: this._getCount(todos),
     };
-  }
-
-  _getCount(todos) {
-    const count = {
-      active: 0,
-      completed: 0,
-      total: 0,
-    };
-
-    todos.forEach(function (todo) {
-      if (todo.isCompleted) {
-        count.completed++;
-      } else {
-        count.active++;
-      }
-
-      count.total++;
-    });
-
-    return count;
   }
 }

@@ -11,8 +11,30 @@ export default class View {
     $('#add-item').value = '';
   }
 
-  render({ todos, count }) {
+  render({ todos }) {
+    const count = this._getCount(todos);
+
     this.$app.innerHTML = this.template.getHTML(todos, count);
+  }
+
+  _getCount(todos) {
+    const count = {
+      active: 0,
+      completed: 0,
+      total: 0,
+    };
+
+    todos.forEach(function (todo) {
+      if (todo.isCompleted) {
+        count.completed++;
+      } else {
+        count.active++;
+      }
+
+      count.total++;
+    });
+
+    return count;
   }
 
   bindEventListener(type, selector, callback) {
