@@ -39,7 +39,7 @@ export default class Model {
 
   _getResult(todos) {
     return {
-      items: [...todos],
+      todos: [...todos],
       count: this._getCount(todos),
     };
   }

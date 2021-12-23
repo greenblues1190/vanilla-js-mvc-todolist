@@ -1,65 +1,18 @@
 import { $, $all } from './helpers.js';
-import { ENTER_KEY, CHECK_ICON, CROSS_ICON } from './contants.js';
+import { ENTER_KEY } from './contants.js';
 
 export default class View {
-  constructor() {
+  constructor(template) {
+    this.template = template;
     this.$app = $('#app');
-  }
-  clearList() {
-    const range = document.createRange();
-    range.selectNodeContents($('#list'));
-    range.deleteContents();
-  }
-
-  clearButtons() {
-    const range = document.createRange();
-    range.selectNodeContents($('#todo-count'));
-    range.deleteContents();
   }
 
   clearInput() {
     $('#add-item').value = '';
   }
 
-  render({ items, count }) {
-    // clear list and rerender
-    this.clearList();
-
-    const li = (id, item) => `
-      <li class='item' data-id='${id}'>
-        <div class='icon-container'>
-          <a class='item-complete'>${CHECK_ICON}</a>
-          <a class='item-delete'>${CROSS_ICON}</a>
-        </div>
-        <p
-          class='item-text'
-          ${
-            item.isCompleted &&
-            `style='text-decoration: line-through; color: #bbb;'`
-          }
-        >
-          ${item.text}
-        </p>
-      </li>
-    `;
-
-    const template = items.map((item, id) => li(id, item)).join('');
-    const list = $('#list');
-
-    list.innerHTML = template;
-
-    // rerender button-container
-    this.clearButtons();
-
-    const todos = count;
-
-    if (todos.total > 0) {
-      const todoCount = $('#todo-count');
-      const itemCount = document.createElement('p');
-      const plural = todos.active === 1 ? '' : 's';
-      itemCount.textContent = `${todos.active} todo${plural} left`;
-      todoCount.appendChild(itemCount);
-    }
+  render({ todos, count }) {
+    this.$app.innerHTML = this.template.getHTML(todos, count);
   }
 
   bindEventListener(type, selector, callback) {
@@ -82,6 +35,7 @@ export default class View {
       if (!button || !button.classList.contains('item-complete')) return;
 
       const id = Number(button.closest('li').dataset.id);
+
       callback(id);
     });
   }
@@ -93,6 +47,7 @@ export default class View {
       if (!button || !button.classList.contains('item-delete')) return;
 
       const id = Number(button.closest('li').dataset.id);
+
       callback(id);
     });
   }
