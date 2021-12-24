@@ -12,29 +12,15 @@ export default class View {
   }
 
   render({ todos }) {
-    const count = this._getCount(todos);
-
-    this.$app.innerHTML = this.template.getHTML(todos, count);
+    this.$app.innerHTML = this.template.getHTML(todos, this._getCount(todos));
   }
 
   _getCount(todos) {
-    const count = {
-      active: 0,
-      completed: 0,
-      total: 0,
-    };
+    const total = todos.length;
+    const completed = todos.filter((todo) => todo.isCompleted).length;
+    const active = total - completed;
 
-    todos.forEach(function (todo) {
-      if (todo.isCompleted) {
-        count.completed++;
-      } else {
-        count.active++;
-      }
-
-      count.total++;
-    });
-
-    return count;
+    return { total, completed, active };
   }
 
   bindEventListener(type, selector, callback) {
